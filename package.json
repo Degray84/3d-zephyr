@@ -1,0 +1,35 @@
+{
+  "name": "3d-zephyr",
+  "version": "0.0.1",
+  "description": "Сайт для 3d печати",
+  "main": "index.js",
+  "scripts": {
+    "start": "run-p watch browsersync",
+    "watch": "npm run build -- -w",
+    "build": "postcss src/styles.css -o assets/css/styles.css",
+    "browsersync": "browser-sync start --server --files 'index.html' 'assets'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Degray84/3d-zephyr.git"
+  },
+  "keywords": [
+    "3d-printing"
+  ],
+  "author": "skarmind",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Degray84/3d-zephyr/issues"
+  },
+  "homepage": "https://github.com/Degray84/3d-zephyr#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.3.7",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.3.11",
+    "postcss-cli": "^9.0.1",
+    "tailwindcss": "^2.2.17"
+  },
+  "dependencies": {
+    "three": "^0.133.1"
+  }
+}
