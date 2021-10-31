@@ -4,106 +4,114 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="assets/css/styles.css" rel="stylesheet" />
-    <!-- ... -->
+    <title>3D-zephyr</title>
   </head>
   <body>
-    <div class="flex items-center flex-wrap w-full px-5">
-      <div
-        id="Bird"
-        class="
-          bg-gradient-radial
-          from-transparent
-          to-purple-500
-          h-[300px]
-          w-full
-          max-w-[350px]
-          rounded
-          overflow-hidden
-          mt-5
-          mx-2
-          model
-        "
-      ></div>
-      <div
-        id="Circle"
-        class="
-          bg-gradient-radial
-          from-transparent
-          to-purple-500
-          h-[300px]
-          w-full
-          max-w-[350px]
-          rounded
-          overflow-hidden
-          mt-5
-          mx-2
-          model
-        "
-      ></div>
-      <div
-      id="Ear"
-        class="
-          bg-gradient-radial
-          from-transparent
-          to-purple-500
-          h-[300px]
-          w-full
-          max-w-[350px]
-          rounded
-          overflow-hidden
-          mt-5
-          mx-2
-          model
-        "
-      ></div>
-      <div
-      id="Ears_straight"
-        class="
-          bg-gradient-radial
-          from-transparent
-          to-purple-500
-          h-[300px]
-          w-full
-          max-w-[350px]
-          rounded
-          overflow-hidden
-          mt-5
-          mx-2
-          model
-        "
-      ></div>
-      <div
-      id="Glove"
-        class="
-          bg-gradient-radial
-          from-transparent
-          to-purple-500
-          h-[300px]
-          w-full
-          max-w-[350px]
-          rounded
-          overflow-hidden
-          mt-5
-          mx-2
-          model
-        "
-      ></div>
-      <div
-      id="Rabbit"
-        class="
-          bg-gradient-radial
-          from-transparent
-          to-purple-500
-          h-[300px]
-          w-full
-          max-w-[350px]
-          rounded
-          overflow-hidden
-          mt-5
-          mx-2
-          model
-        "
-      ></div>
+    <!-- <div class="left-0 top-0 h-screen w-screen flex justify-center items-center fixed z-50 spiner">
+      <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+    </div> -->
+    <div class="fixed w-screen h-screen lg:p-5 z-20">
+      <form id="inputCutt" class="relative w-full h-full rounded flex flex-col ls:flex-row overflow-hidden border">
+        <div class="absolute bg-purple-200 opacity-90 h-full w-full z-0"></div>
+        <div class="relative settings box-border order-2 ls:order-1 w-full ls:w-1/3 bg-gray-200 h-1/3 ls:h-full flex flex-col">
+          <div class="upload_btn flex w-full" id="upload_btn">
+            <label class="flex w-full h-full items-center justify-center py-2 ls:py-4 space-x-2 bg-white tracking-wide uppercase border border-blue cursor-pointer hover:bg-purple-600 hover:text-white text-purple-600 ease-linear transition-all duration-150">
+              <span class="material-icons"> file_upload </span>
+              <span class="text-base leading-normal">Загрузите файлы <b>STL</b></span>
+              <input type="file" class="hidden" id="inputFiles" multiple />
+            </label>
+            <span id="clear_btn" class="w-20 h-full flex justify-center items-center bg-white tracking-wide uppercase border border-blue cursor-pointer hover:bg-purple-600 hover:text-white text-purple-600 ease-linear transition-all duration-150 hidden"
+              ><span class="material-icons"> restart_alt </span></span
+            >
+          </div>
+          <div class="flex w-full ls:flex-col justify-between flex-wrap h-full bg-gray-300 pt-1 box-border" id="form_data">
+            <div class="data_models flex w-full flex-wrap box-border">
+              <div class="model_data box-border relative w-1/2 ls:w-full h-full flex flex-col px-1" id="model_data">
+                <input type="name" placeholder="Название изделия" class="w-full h-10 px-2 rounded flex-shrink-0" />
+                <div class="price w-full flex flex-shrink-0">
+                  <label class="flex items-center justify-center w-1/2 space-x-1 py-1">
+                    <span class="uppercase text-sm tracking-wide text-right w-3/6 pr-1">Масса</span>
+                    <input id="input_length" value="000" type="number" class="w-2/6 tracking-tight text-center font-medium rounded" />
+                    <span class="text-xs tracking-wide text-left w-1/6 pl-1">г</span>
+                  </label>
+                  <label class="flex items-center justify-center w-1/2">
+                    <span class="uppercase text-sm tracking-wide text-right w-3/6 pr-1">Цена</span>
+                    <input id="input_length" value="000" type="number" class="w-2/6 tracking-tight text-center font-medium rounded" />
+                    <span class="text-xs tracking-wide text-left w-1/6 pl-1">р</span>
+                  </label>
+                </div>
+                <div class="categories h-full overflow-auto">
+                  <div class="categories__input">
+                    <label class="flex items-center justify-center w-full">
+                      <input id="input_length" placeholder="Введите категорию" type="text" class="w-full h-8 pl-2 tracking-tight rounded" />
+                    </label>
+                  </div>
+                  <div class="categories__list h-12 relative flex flex-wrap py-1 overflow-clip">
+                    <div class="categorie h-5 flex items-center space-x-1 bg-red-300 py-0.5 mb-0.5 mx-0.5 pl-2 rounded-full">
+                      <span class="text-xs uppercase">Животные</span>
+                      <span class="material-icons cursor-pointer select-none"> close </span>
+                    </div>
+                    <div class="categorie h-5 flex items-center space-x-1 bg-red-300 py-0.5 mb-0.5 mx-0.5 pl-2 rounded-full">
+                      <span class="text-xs uppercase">Животные</span>
+                      <span class="material-icons cursor-pointer select-none"> close </span>
+                    </div>
+                    <div class="categorie h-5 flex items-center space-x-1 bg-red-300 py-0.5 mb-0.5 mx-0.5 pl-2 rounded-full">
+                      <span class="text-xs uppercase">Животные</span>
+                      <span class="material-icons cursor-pointer select-none"> close </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="dimensions w-full flex self-end">
+                  <label class="flex items-center justify-center w-1/3">
+                    <span class="text-xs uppercase tracking-wide text-right w-2/3">длина</span>
+                    <input id="input_length" value="000" disabled type="text" class="w-1/3 tracking-tight text-center text-xs font-medium" />
+                  </label>
+                  <label class="flex items-center justify-center w-1/3">
+                    <span class="text-xs uppercase tracking-wide text-right w-2/3">ширина</span>
+                    <input id="input_length" value="000" disabled type="text" class="w-1/3 tracking-tight text-center text-xs font-medium" />
+                  </label>
+                  <label class="flex items-center justify-center w-1/3">
+                    <span class="text-xs uppercase tracking-wide text-right w-2/3">высота</span>
+                    <input id="input_length" value="000" disabled type="text" class="w-1/3 tracking-tight text-center text-xs font-medium" />
+                  </label>
+                </div>
+              </div>
+              <div class="models box-border w-1/2 ls:w-full flex flex-col px-1">
+                <span class="text-gray-900 w-full">3D-модели</span>
+                <div id="fileList" class="flex flex-col w-full h-full"></div>
+              </div>
+            </div>
+            <input type="submit" class="w-full bg-white h-10 tracking-wide uppercase border border-blue cursor-pointer hover:bg-purple-600 hover:text-white text-purple-600 ease-linear transition-all duration-150" />
+          </div>
+        </div>
+        <div class="relative w-full order-1 ls:order-2 ls:w-2/3 h-2/3 ls:h-full model" id="scene"></div>
+        <div class="absolute top-0 right-0 p-2">
+          <div class="controls_container relative flex flex-wrap items-center justify-center w-36">
+            <div class="w-10 h-10 m-0.5 opacity-0"></div>
+            <div id="controls_up" class="w-10 h-10 bg-green-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-green-400 hover:text-white m-0.5"><span class="material-icons"> arrow_drop_up </span></div>
+            <div id="controls_from" class="w-10 h-10 bg-blue-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-blue-400 hover:text-white m-0.5"><span class="material-icons"> north_east </span></div>
+            <div id="controls_left" class="w-10 h-10 bg-red-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-red-400 hover:text-white m-0.5"><span class="material-icons"> arrow_left </span></div>
+            <div id="controls_reset" class="w-10 h-10 bg-gray-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-gray-400 hover:text-white m-0.5"><span class="material-icons"> restart_alt </span></div>
+            <div id="controls_right" class="w-10 h-10 bg-red-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-red-400 hover:text-white m-0.5"><span class="material-icons"> arrow_right </span></div>
+
+            <div id="controls_to" class="w-10 h-10 bg-blue-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-blue-400 hover:text-white m-0.5"><span class="material-icons"> south_west </span></div>
+            <div id="controls_down" class="w-10 h-10 bg-green-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md rounded transition hover:shadow-lg hover:bg-green-400 hover:text-white m-0.5"><span class="material-icons"> arrow_drop_down </span></div>
+            <div class="w-10 h-10 m-0.5 opacity-0"></div>
+          </div>
+        </div>
+        <div class="absolute bottom-1/3 ls:bottom-0 left-0 ls:left-1/3 p-2">
+          <div class="preview_container relative w-32 h-32 bg-purple-200 border shadow-md hidden">
+            <image id="preview" class="preview_image object-cover w-full h-full"></image>
+          </div>
+        </div>
+        <div class="absolute bottom-1/3 ls:bottom-0 right-0 p-2">
+          <div class="save relative flex flex-wrap items-center justify-center space-x-1 space-y-1" id="settings">
+            <div id="save">
+              <div id="controls_up" class="w-10 h-10 bg-gray-300 bg-opacity-80 flex items-center justify-center cursor-pointer select-none shadow-md border rounded transition hover:shadow-lg hover:bg-gray-400 hover:text-white m-0.5"><span class="material-icons"> save </span></div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     <script src="./assets/js/main.js" type="module"></script>
   </body>
