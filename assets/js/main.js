@@ -1,9 +1,16 @@
 import * as THREE from "./threejs/build/three.module.js";
-import { OrbitControls } from "./threejs/examples/jsm/controls/OrbitControls.js";
-import { STLLoader } from "./threejs/examples/jsm/loaders/STLLoader.js";
+import {
+  OrbitControls
+} from "./threejs/examples/jsm/controls/OrbitControls.js";
+import {
+  STLLoader
+} from "./threejs/examples/jsm/loaders/STLLoader.js";
 import setInputFile from "./modules/setInputFile.js";
+import setCat from "./modules/setCat.js";
+import setCatalogItem from "./modules/setCatalogItem.js"
 document.addEventListener("DOMContentLoaded", async () => {
   document.querySelectorAll(".model").forEach((model) => setModel(model.id));
+  getCatalog()
 });
 const setModel = async (id) => {
   // Документ
@@ -24,9 +31,14 @@ const setModel = async (id) => {
   const save_btn = document.querySelector("#save");
   const preview = document.querySelector("#preview");
   let interval;
+
   // Настройки сцены и рендера
   const scene = new THREE.Scene();
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, preserveDrawingBuffer: true });
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true,
+    preserveDrawingBuffer: true
+  });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(container.clientWidth, container.clientHeight);
   // renderer.toneMapping = THREE.ReinhardToneMapping;
@@ -56,6 +68,10 @@ const setModel = async (id) => {
   setListeners();
   render();
 
+  //Формы
+
+  initCatList()
+  formControl()
   // ****************ФУНКЦИИ**************
 
   function render() {
@@ -65,6 +81,7 @@ const setModel = async (id) => {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.render(scene, camera);
   }
+
   function setListeners() {
     clear_btn.addEventListener("click", clearScene);
     controls.addEventListener("change", render);
@@ -119,6 +136,7 @@ const setModel = async (id) => {
     console.log(scene);
     // file_containers.forEach((fc) => fc.remove());
   }
+
   function changeScene(clear = false) {
     if (clear) {
       form_data.classList.add("hidden");
@@ -130,6 +148,41 @@ const setModel = async (id) => {
       clear_btn.classList.remove("hidden");
     }
   }
+
+  function computeBBox() {
+    const data_length = document.querySelector('#input_length')
+    const data_width = document.querySelector('#input_width')
+    const data_height = document.querySelector('#input_height')
+    let assyBox = {
+      max: {
+        x: 0,
+        y: 0,
+        z: 0
+      },
+      min: {
+        x: 0,
+        y: 0,
+        z: 0
+      }
+    }
+    scene.children.forEach(mesh => {
+      console.log()
+      if (mesh.type === "Mesh") {
+        mesh.geometry.computeBoundingBox();
+        console.log(mesh)
+        mesh.geometry.boundingBox.max.x > assyBox.max.x ? assyBox.max.x = mesh.geometry.boundingBox.max.x : false
+        mesh.geometry.boundingBox.max.y > assyBox.max.y ? assyBox.max.y = mesh.geometry.boundingBox.max.y : false
+        mesh.geometry.boundingBox.max.z > assyBox.max.z ? assyBox.max.z = mesh.geometry.boundingBox.max.z : false
+        mesh.geometry.boundingBox.min.x < assyBox.min.x ? assyBox.min.x = mesh.geometry.boundingBox.min.x : false
+        mesh.geometry.boundingBox.min.y < assyBox.min.y ? assyBox.min.y = mesh.geometry.boundingBox.min.y : false
+        mesh.geometry.boundingBox.min.z < assyBox.min.z ? assyBox.min.z = mesh.geometry.boundingBox.min.z : false
+        data_length.setAttribute('value', (assyBox.max.z - assyBox.min.z).toFixed(0))
+        data_width.setAttribute('value', (assyBox.max.x - assyBox.min.x).toFixed(0))
+        data_height.setAttribute('value', (assyBox.max.y - assyBox.min.y).toFixed(0))
+      }
+    })
+  }
+
   function readFiles(files) {
     const stlLoader = new STLLoader();
     for (const file of files) {
@@ -140,8 +193,7 @@ const setModel = async (id) => {
       !isNaN(name.charAt(0)) ? (name = "_" + name) : false;
       reader.onload = async (data) => {
         const stl = await stlLoader.parse(data.target.result);
-        stl.computeBoundingBox();
-        console.log(stl.boundingBox);
+
         const material = new THREE.MeshPhysicalMaterial({
           roughness: 0.4,
           metalness: 0.6,
@@ -154,11 +206,13 @@ const setModel = async (id) => {
         mesh.name = name;
         scene.add(mesh);
         // Настройки камеры
-        camera.position.z = Math.max(stl.boundingBox.max.y, stl.boundingBox.max.x, stl.boundingBox.max.z) + 150;
         controls.update();
         console.log(stl);
         // Добавление файлов в форму
-        fileList.insertAdjacentHTML("beforeend", setInputFile({ name, randomColor }));
+        fileList.insertAdjacentHTML("beforeend", setInputFile({
+          name,
+          randomColor
+        }));
         const container = document.querySelector(`#${name}-container`);
         const colorSet = document.querySelector(`#${name}-color`);
         const closer = document.querySelector(`#${name}-close`);
@@ -180,14 +234,16 @@ const setModel = async (id) => {
           container.remove();
           render();
           fileList.childElementCount ? true : changeScene(true);
-          console.log(scene);
+          computeBBox()
         });
+        computeBBox()
         changeScene();
         render();
       };
       reader.readAsArrayBuffer(file);
     }
   }
+
   function move_null(axis, dir = 1) {
     controls.target[axis] = controls.target[axis] + 1 * dir;
     ctrl_null.position[axis] = ctrl_null.position[axis] + 1 * dir;
@@ -198,20 +254,85 @@ const setModel = async (id) => {
       controls.update();
     }, 200);
   }
+
   function reset_null() {
     controls.target.set(0, 0, 0);
     ctrl_null.position.set(0, 0, 0);
     controls.update();
   }
+
   function save_image() {
     scene.remove(ctrl_null_helper);
     scene.remove(axesHelper);
+    scene.remove(hemiLightHelper);
     renderer.render(scene, camera);
-    const img = renderer.domElement.toDataURL("image/webp");
+    const img = renderer.domElement.toDataURL("image/webp", 0.3);
     preview.setAttribute("src", img);
     preview.parentNode.classList.remove("hidden");
     scene.add(ctrl_null_helper);
     scene.add(axesHelper);
+    scene.add(hemiLightHelper);
     renderer.render(scene, camera);
   }
+
+  function initCatList() {
+    const catInput = document.querySelector('#input_category')
+    const categoriesList = document.querySelector('#categories__list')
+    const catBtn = document.querySelector('#catPlus')
+    let categories = []
+    catBtn.addEventListener('click', setCategories)
+    catInput.addEventListener('change', setCategories)
+
+    function setCategories(e) {
+      e.preventDefault()
+
+      if (catInput.value.length > 0 && catInput.value.length < 15 && isNaN(catInput.value)) {
+        document.querySelectorAll('.input_categorie').forEach(e => e.remove())
+        categories.includes(catInput.value) ? false : categories.push(catInput.value)
+        categories.forEach(name => {
+          categoriesList.insertAdjacentHTML('beforeend', setCat({
+            name
+          }))
+          document.querySelector(`#cat_${name}_close`).addEventListener('click', close => {
+            close.target.parentNode.remove()
+            categories = categories.filter(cat => cat != name)
+          })
+          catInput.value = ''
+        })
+
+        console.log(categories)
+      }
+
+    }
+  }
+
+  function formControl() {
+    const form = document.querySelector("#inputCutt")
+    form.addEventListener('submit', async e => {
+      e.preventDefault()
+      let formData = new FormData(form)
+      formData.append('preview', preview.getAttribute("src"));
+      for (var p of formData) {
+        let name = p[0];
+        let value = p[1];
+        console.log(name, value)
+      }
+      let response = await fetch('http://localhost:5000/api/catalog/models', {
+        method: 'POST',
+        body: formData
+      });
+
+      let result = await response.json();
+      console.log(result)
+    })
+  }
 };
+const getCatalog = async () => {
+  const catalog_container = document.querySelector('#catalog')
+  const response = await fetch('http://localhost:5000/api/catalog/models')
+  const result = await response.json();
+  console.log(result)
+  result.data ? result.data.forEach(product => catalog_container.insertAdjacentHTML('beforeend', setCatalogItem(product))) : false
+
+
+}
