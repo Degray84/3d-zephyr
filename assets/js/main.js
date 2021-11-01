@@ -1,16 +1,12 @@
 import * as THREE from "./threejs/build/three.module.js";
-import {
-  OrbitControls
-} from "./threejs/examples/jsm/controls/OrbitControls.js";
-import {
-  STLLoader
-} from "./threejs/examples/jsm/loaders/STLLoader.js";
+import { OrbitControls } from "./threejs/examples/jsm/controls/OrbitControls.js";
+import { STLLoader } from "./threejs/examples/jsm/loaders/STLLoader.js";
 import setInputFile from "./modules/setInputFile.js";
 import setCat from "./modules/setCat.js";
-import setCatalogItem from "./modules/setCatalogItem.js"
+import setCatalogItem from "./modules/setCatalogItem.js";
 document.addEventListener("DOMContentLoaded", async () => {
   document.querySelectorAll(".model").forEach((model) => setModel(model.id));
-  getCatalog()
+  getCatalog();
 });
 const setModel = async (id) => {
   // Документ
@@ -30,14 +26,19 @@ const setModel = async (id) => {
   const ctr_reset_btn = document.querySelector("#controls_reset");
   const save_btn = document.querySelector("#save");
   const preview = document.querySelector("#preview");
+  const catBtn = document.querySelector("#catPlus");
+  const data_length = document.querySelector("#input_length");
+  const data_width = document.querySelector("#input_width");
+  const data_height = document.querySelector("#input_height");
   let interval;
+  let categories = [];
 
   // Настройки сцены и рендера
   const scene = new THREE.Scene();
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true,
-    preserveDrawingBuffer: true
+    preserveDrawingBuffer: true,
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -70,8 +71,8 @@ const setModel = async (id) => {
 
   //Формы
 
-  initCatList()
-  formControl()
+  initCatList();
+  formControl();
   // ****************ФУНКЦИИ**************
 
   function render() {
@@ -150,37 +151,34 @@ const setModel = async (id) => {
   }
 
   function computeBBox() {
-    const data_length = document.querySelector('#input_length')
-    const data_width = document.querySelector('#input_width')
-    const data_height = document.querySelector('#input_height')
     let assyBox = {
       max: {
         x: 0,
         y: 0,
-        z: 0
+        z: 0,
       },
       min: {
         x: 0,
         y: 0,
-        z: 0
-      }
-    }
-    scene.children.forEach(mesh => {
-      console.log()
+        z: 0,
+      },
+    };
+    scene.children.forEach((mesh) => {
+      console.log();
       if (mesh.type === "Mesh") {
         mesh.geometry.computeBoundingBox();
-        console.log(mesh)
-        mesh.geometry.boundingBox.max.x > assyBox.max.x ? assyBox.max.x = mesh.geometry.boundingBox.max.x : false
-        mesh.geometry.boundingBox.max.y > assyBox.max.y ? assyBox.max.y = mesh.geometry.boundingBox.max.y : false
-        mesh.geometry.boundingBox.max.z > assyBox.max.z ? assyBox.max.z = mesh.geometry.boundingBox.max.z : false
-        mesh.geometry.boundingBox.min.x < assyBox.min.x ? assyBox.min.x = mesh.geometry.boundingBox.min.x : false
-        mesh.geometry.boundingBox.min.y < assyBox.min.y ? assyBox.min.y = mesh.geometry.boundingBox.min.y : false
-        mesh.geometry.boundingBox.min.z < assyBox.min.z ? assyBox.min.z = mesh.geometry.boundingBox.min.z : false
-        data_length.setAttribute('value', (assyBox.max.z - assyBox.min.z).toFixed(0))
-        data_width.setAttribute('value', (assyBox.max.x - assyBox.min.x).toFixed(0))
-        data_height.setAttribute('value', (assyBox.max.y - assyBox.min.y).toFixed(0))
+        console.log(mesh);
+        mesh.geometry.boundingBox.max.x > assyBox.max.x ? (assyBox.max.x = mesh.geometry.boundingBox.max.x) : false;
+        mesh.geometry.boundingBox.max.y > assyBox.max.y ? (assyBox.max.y = mesh.geometry.boundingBox.max.y) : false;
+        mesh.geometry.boundingBox.max.z > assyBox.max.z ? (assyBox.max.z = mesh.geometry.boundingBox.max.z) : false;
+        mesh.geometry.boundingBox.min.x < assyBox.min.x ? (assyBox.min.x = mesh.geometry.boundingBox.min.x) : false;
+        mesh.geometry.boundingBox.min.y < assyBox.min.y ? (assyBox.min.y = mesh.geometry.boundingBox.min.y) : false;
+        mesh.geometry.boundingBox.min.z < assyBox.min.z ? (assyBox.min.z = mesh.geometry.boundingBox.min.z) : false;
+        data_length.setAttribute("value", (assyBox.max.z - assyBox.min.z).toFixed(0));
+        data_width.setAttribute("value", (assyBox.max.x - assyBox.min.x).toFixed(0));
+        data_height.setAttribute("value", (assyBox.max.y - assyBox.min.y).toFixed(0));
       }
-    })
+    });
   }
 
   function readFiles(files) {
@@ -209,10 +207,13 @@ const setModel = async (id) => {
         controls.update();
         console.log(stl);
         // Добавление файлов в форму
-        fileList.insertAdjacentHTML("beforeend", setInputFile({
-          name,
-          randomColor
-        }));
+        fileList.insertAdjacentHTML(
+          "beforeend",
+          setInputFile({
+            name,
+            randomColor,
+          })
+        );
         const container = document.querySelector(`#${name}-container`);
         const colorSet = document.querySelector(`#${name}-color`);
         const closer = document.querySelector(`#${name}-close`);
@@ -234,9 +235,9 @@ const setModel = async (id) => {
           container.remove();
           render();
           fileList.childElementCount ? true : changeScene(true);
-          computeBBox()
+          computeBBox();
         });
-        computeBBox()
+        computeBBox();
         changeScene();
         render();
       };
@@ -276,63 +277,98 @@ const setModel = async (id) => {
   }
 
   function initCatList() {
-    const catInput = document.querySelector('#input_category')
-    const categoriesList = document.querySelector('#categories__list')
-    const catBtn = document.querySelector('#catPlus')
-    let categories = []
-    catBtn.addEventListener('click', setCategories)
-    catInput.addEventListener('change', setCategories)
+    const catInput = document.querySelector("#input_category");
+    const categoriesList = document.querySelector("#categories__list");
+
+    catBtn.addEventListener("click", setCategories);
+    catInput.addEventListener("change", setCategories);
 
     function setCategories(e) {
-      e.preventDefault()
+      e.preventDefault();
 
       if (catInput.value.length > 0 && catInput.value.length < 15 && isNaN(catInput.value)) {
-        document.querySelectorAll('.input_categorie').forEach(e => e.remove())
-        categories.includes(catInput.value) ? false : categories.push(catInput.value)
-        categories.forEach(name => {
-          categoriesList.insertAdjacentHTML('beforeend', setCat({
-            name
-          }))
-          document.querySelector(`#cat_${name}_close`).addEventListener('click', close => {
-            close.target.parentNode.remove()
-            categories = categories.filter(cat => cat != name)
-          })
-          catInput.value = ''
-        })
+        document.querySelectorAll(".input_categorie").forEach((e) => e.remove());
+        categories.includes(catInput.value) ? false : categories.push(catInput.value);
+        categories.forEach((name) => {
+          categoriesList.insertAdjacentHTML(
+            "beforeend",
+            setCat({
+              name: name.split(" ").join("_"),
+            })
+          );
+          document.querySelector(`#cat_${name.split(" ").join("_")}_close`).addEventListener("click", (close) => {
+            close.target.parentNode.remove();
+            categories = categories.filter((cat) => cat != name);
+          });
+          catInput.value = "";
+        });
 
-        console.log(categories)
+        console.log(categories);
       }
-
     }
   }
 
   function formControl() {
-    const form = document.querySelector("#inputCutt")
-    form.addEventListener('submit', async e => {
-      e.preventDefault()
-      let formData = new FormData(form)
-      formData.append('preview', preview.getAttribute("src"));
-      for (var p of formData) {
-        let name = p[0];
-        let value = p[1];
-        console.log(name, value)
-      }
-      let response = await fetch('http://localhost:5000/api/catalog/models', {
-        method: 'POST',
-        body: formData
-      });
+    const form = document.querySelector("#inputCutt");
+    const inputName = document.querySelector("#product_name");
+    const inputMass = document.querySelector("#input_mass");
+    const inputPrice = document.querySelector("#input_price");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      let formData = new FormData(form);
+      const isPreview = preview.getAttribute("src");
+      const isCategories = !!categories.length;
+      const ifFiles = !!inputFiles.files.length;
+      const productName = !!formData.get("name");
+      const productMass = !!formData.get("mass");
+      const productPrice = !!formData.get("price");
+      if (!ifFiles) {
+        changeBg(inputFiles.parentElement);
+        console.log("Загрузите хотя бы один файл");
+      } else if (!productName) {
+        changeBg(inputName);
+        console.log("Введите название");
+      } else if (!productMass) {
+        changeBg(inputMass);
+        console.log("Введите массу");
+      } else if (!productPrice) {
+        changeBg(inputPrice);
+        console.log("Введите цену");
+      } else if (!isPreview) {
+        changeBg(save_btn);
+        console.log("Создайте превью изделия");
+      } else if (!isCategories) {
+        changeBg(catBtn);
+        console.log("Добавьте хотя бы одну тему");
+      } else {
+        formData.append("preview", preview.getAttribute("src"));
+        formData.append("length", data_length.getAttribute("value"));
+        formData.append("width", data_width.getAttribute("value"));
+        formData.append("height", data_height.getAttribute("value"));
+        for (var p of formData) {
+          let name = p[0];
+          let value = p[1];
+          console.log(name, value);
+        }
+        let response = await fetch("http://localhost:5000/api/catalog/models", {
+          method: "POST",
+          body: formData,
+        });
 
-      let result = await response.json();
-      console.log(result)
-    })
+        let result = await response.json();
+        console.log(result);
+      }
+    });
   }
 };
 const getCatalog = async () => {
-  const catalog_container = document.querySelector('#catalog')
-  const response = await fetch('http://localhost:5000/api/catalog/models')
+  const catalog_container = document.querySelector("#catalog");
+  const response = await fetch("http://localhost:5000/api/catalog/models");
   const result = await response.json();
-  console.log(result)
-  result.data ? result.data.forEach(product => catalog_container.insertAdjacentHTML('beforeend', setCatalogItem(product))) : false
-
-
-}
+  console.log(result);
+  result.data ? result.data.forEach((product) => catalog_container.insertAdjacentHTML("beforeend", setCatalogItem(product))) : false;
+};
+const changeBg = (elem, cl = ["bg-red-700", "text-white"]) => {
+  cl.forEach((c) => elem.classList.add(c));
+  setTimeout(() => cl.forEach((c) => elem.classList.remove(c)), 300);
+};

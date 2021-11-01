@@ -682,10 +682,6 @@ video {
   position: relative;
 }
 
-.left-0 {
-  left: 0px;
-}
-
 .top-0 {
   top: 0px;
 }
@@ -698,16 +694,20 @@ video {
   bottom: 33.333333%;
 }
 
-.z-50 {
-  z-index: 50;
+.left-0 {
+  left: 0px;
 }
 
-.z-20 {
-  z-index: 20;
+.bottom-0 {
+  bottom: 0px;
 }
 
 .z-0 {
   z-index: 0;
+}
+
+.z-20 {
+  z-index: 20;
 }
 
 .order-2 {
@@ -718,6 +718,10 @@ video {
   order: 1;
 }
 
+.-m-4 {
+  margin: -1rem;
+}
+
 .m-0\.5 {
   margin: 0.125rem;
 }
@@ -726,8 +730,9 @@ video {
   margin: 0px;
 }
 
-.-m-4 {
-  margin: -1rem;
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mx-0\.5 {
@@ -740,9 +745,8 @@ video {
   margin-right: 0px;
 }
 
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
+.mt-1 {
+  margin-top: 0.25rem;
 }
 
 .mb-0\.5 {
@@ -759,10 +763,6 @@ video {
 
 .mb-1 {
   margin-bottom: 0.25rem;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
 }
 
 .box-border {
@@ -793,40 +793,40 @@ video {
   display: none;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
-.h-32 {
-  height: 8rem;
-}
-
 .h-full {
   height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
 }
 
 .h-1\/3 {
   height: 33.333333%;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-8 {
   height: 2rem;
 }
 
-.h-12 {
-  height: 3rem;
+.h-7 {
+  height: 1.75rem;
 }
 
-.h-5 {
-  height: 1.25rem;
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-2\/3 {
   height: 66.666667%;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
+.h-5 {
+  height: 1.25rem;
 }
 
 .h-48 {
@@ -837,16 +837,12 @@ video {
   min-height: 100vh;
 }
 
-.w-screen {
-  width: 100vw;
-}
-
-.w-32 {
-  width: 8rem;
-}
-
 .w-full {
   width: 100%;
+}
+
+.w-screen {
+  width: 100vw;
 }
 
 .w-20 {
@@ -854,10 +850,6 @@ video {
 }
 
 .w-1\/2 {
-  width: 50%;
-}
-
-.w-3\/6 {
   width: 50%;
 }
 
@@ -877,10 +869,6 @@ video {
   width: 33.333333%;
 }
 
-.w-2\/3 {
-  width: 66.666667%;
-}
-
 .w-36 {
   width: 9rem;
 }
@@ -889,29 +877,16 @@ video {
   width: 2.5rem;
 }
 
-.flex-shrink-0 {
-  flex-shrink: 0;
+.w-32 {
+  width: 8rem;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .transform {
   transform: var(--tw-transform);
-}
-
-@-webkit-keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin {
-  -webkit-animation: spin 1s linear infinite;
-          animation: spin 1s linear infinite;
 }
 
 .cursor-pointer {
@@ -971,16 +946,16 @@ video {
   align-self: flex-end;
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
 
 .overflow-clip {
   text-overflow: clip;
-}
-
-.rounded-full {
-  border-radius: 9999px;
 }
 
 .rounded {
@@ -1005,17 +980,9 @@ video {
   border-width: 1px;
 }
 
-.border-t-2 {
-  border-top-width: 2px;
-}
-
-.border-b-2 {
-  border-bottom-width: 2px;
-}
-
-.border-purple-500 {
-  --tw-border-opacity: 1;
-  border-color: rgba(139, 92, 246, var(--tw-border-opacity));
+.bg-purple-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(237, 233, 254, var(--tw-bg-opacity));
 }
 
 .bg-purple-200 {
@@ -1063,9 +1030,9 @@ video {
   background-color: rgba(124, 58, 237, var(--tw-bg-opacity));
 }
 
-.bg-purple-100 {
+.bg-red-700 {
   --tw-bg-opacity: 1;
-  background-color: rgba(237, 233, 254, var(--tw-bg-opacity));
+  background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
 }
 
 .bg-opacity-80 {
@@ -1088,6 +1055,16 @@ video {
 
 .p-4 {
   padding: 1rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 
 .py-2 {
@@ -1115,16 +1092,6 @@ video {
   padding-right: 1rem;
 }
 
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
-.py-24 {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-}
-
 .pt-1 {
   padding-top: 0.25rem;
 }
@@ -1141,8 +1108,28 @@ video {
   padding-left: 0.5rem;
 }
 
+.pr-0\.5 {
+  padding-right: 0.125rem;
+}
+
+.pr-0 {
+  padding-right: 0px;
+}
+
 .pb-1 {
   padding-bottom: 0.25rem;
+}
+
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
+.pb-9 {
+  padding-bottom: 2.25rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 
 .text-left {
@@ -1160,11 +1147,6 @@ video {
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
 }
 
 .text-xs {
@@ -1219,6 +1201,11 @@ video {
   color: rgba(124, 58, 237, var(--tw-text-opacity));
 }
 
+.text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgba(55, 65, 81, var(--tw-text-opacity));
+}
+
 .text-gray-900 {
   --tw-text-opacity: 1;
   color: rgba(17, 24, 39, var(--tw-text-opacity));
@@ -1229,14 +1216,14 @@ video {
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 
-.text-gray-600 {
-  --tw-text-opacity: 1;
-  color: rgba(75, 85, 99, var(--tw-text-opacity));
-}
-
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgba(107, 114, 128, var(--tw-text-opacity));
+}
+
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgba(75, 85, 99, var(--tw-text-opacity));
 }
 
 .opacity-90 {
@@ -1295,6 +1282,10 @@ video {
   transition-duration: 150ms;
 }
 
+.duration-300 {
+  transition-duration: 300ms;
+}
+
 .ease-linear {
   transition-timing-function: linear;
 }
@@ -1311,34 +1302,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .custom-number-input button:focus {
   outline: none !important;
-}
-
-/* fallback */
-
-@font-face {
-  font-family: "Material Icons";
-
-  font-style: normal;
-
-  font-weight: 400;
-
-  src: url(../fonts/material-icons.woff2) format("woff2");
-}
-
-.material-icons {
-  font-family: "Material Icons";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: "liga";
-  -webkit-font-smoothing: antialiased;
 }
 
 .hover\:bg-purple-600:hover {
@@ -1386,7 +1349,17 @@ input[type="number"]::-webkit-outer-spin-button {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+@media (min-width: 640px) {
+  .sm\:inline-block {
+    display: inline-block;
+  }
+}
+
 @media (min-width: 768px) {
+  .md\:inline-block {
+    display: inline-block;
+  }
+
   .md\:w-1\/2 {
     width: 50%;
   }
@@ -1403,6 +1376,10 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 @media (orientation: landscape) {
+  .ls\:relative {
+    position: relative;
+  }
+
   .ls\:bottom-0 {
     bottom: 0px;
   }
@@ -1458,5 +1435,9 @@ input[type="number"]::-webkit-outer-spin-button {
   .ls\:py-4 {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+
+  .ls\:pb-0 {
+    padding-bottom: 0px;
   }
 }

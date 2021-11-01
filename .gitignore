@@ -1,6 +1,6 @@
 node_modules
 models
-catalog
+catalog.json
 vault
 threejs
 .env

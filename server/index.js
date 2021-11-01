@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const morgan = require("morgan");
-const formidableMiddleware = require('express-formidable');
+const formidableMiddleware = require("express-formidable");
 // const connectDB = require('./config/db.js')
 
 // configs
@@ -30,11 +30,13 @@ app.use(
 );
 
 app.use(morgan("dev"));
-app.use(formidableMiddleware({
-  encoding: 'utf-8',
-  uploadDir: (__dirname + '/vault/'),
-  multiples: true,
-}));
+app.use(
+  formidableMiddleware({
+    encoding: "utf-8",
+    uploadDir: __dirname + "/vault/",
+    multiples: true,
+  })
+);
 
 // use Routers
 
@@ -49,11 +51,5 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(PORT, () => {
-  console.log(
-    "Сервер запущен в окружении ".cyan +
-    process.env.NODE_ENV.magenta +
-    " на порту ".cyan +
-    PORT.magenta +
-    " ...".cyan
-  );
+  console.log("Сервер запущен в окружении ".cyan + process.env.NODE_ENV.magenta + " на порту ".cyan + PORT.magenta + " ...".cyan);
 });
