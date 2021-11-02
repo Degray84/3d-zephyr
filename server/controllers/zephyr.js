@@ -5,6 +5,8 @@ exports.getModels = async function (req, res, next) {
     if (isCatalog) {
       const rawCatalog = await fs.readFileSync(__dirname + '/../' + 'catalog.json')
       let catalog = await JSON.parse(rawCatalog)
+      // catalog.categories = catalog.categories.split(',')
+      console.log(catalog)
       res.send({
         success: true,
         description: "Каталог продукции",
@@ -16,7 +18,7 @@ exports.getModels = async function (req, res, next) {
         description: "Каталог отсутствует",
       });
     }
-    
+
   } catch (error) {
     next(error);
   }
@@ -25,6 +27,7 @@ exports.postModel = async function (req, res, next) {
   try {
     let fields = req.fields;
     const files = req.files.files;
+
     fields.files = []
     if (Array.isArray(files)) {
       files.forEach(file => {
@@ -49,17 +52,20 @@ exports.postModel = async function (req, res, next) {
     if (isCatalog) {
       const rawCatalog = await fs.readFileSync(__dirname + '/../' + 'catalog.json')
       let catalog = await JSON.parse(rawCatalog)
+      fields.categories = fields.categories.split(',')
       catalog.push(fields)
       await fs.writeFileSync(__dirname + '/../' + 'catalog.json', JSON.stringify(catalog))
     } else {
       let catalog = []
+      fields.categories = fields.categories.split(',')
       catalog.push(fields)
       await fs.writeFileSync(__dirname + '/../' + 'catalog.json', JSON.stringify(catalog))
     }
     res.send({
       success: true,
       description: "Модель добавлена",
-      fields
+      fields,
+      files
     });
   } catch (error) {
     next(error);

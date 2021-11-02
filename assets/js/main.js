@@ -1,14 +1,26 @@
 import * as THREE from "./threejs/build/three.module.js";
-import { OrbitControls } from "./threejs/examples/jsm/controls/OrbitControls.js";
-import { STLLoader } from "./threejs/examples/jsm/loaders/STLLoader.js";
+import {
+  OrbitControls
+} from "./threejs/examples/jsm/controls/OrbitControls.js";
+import {
+  STLLoader
+} from "./threejs/examples/jsm/loaders/STLLoader.js";
 import setInputFile from "./modules/setInputFile.js";
 import setCat from "./modules/setCat.js";
 import setCatalogItem from "./modules/setCatalogItem.js";
 document.addEventListener("DOMContentLoaded", async () => {
-  document.querySelectorAll(".model").forEach((model) => setModel(model.id));
+  const add_btn = document.querySelector('#add_model')
+  const modal = document.querySelector('#modal_input')
+
+  add_btn.addEventListener('click', e => {
+    modal.classList.remove('hidden')
+    document.body.classList.add('overflow-hidden')
+  })
   getCatalog();
+
 });
 const setModel = async (id) => {
+
   // Документ
   const container = document.querySelector(`#${id}`);
   const form_data = document.querySelector("#form_data");
@@ -16,7 +28,7 @@ const setModel = async (id) => {
   const inputFiles = document.querySelector("#inputFiles");
   const fileList = document.querySelector("#fileList");
   const upload_btn = document.querySelector("#upload_btn");
-  const clear_btn = document.querySelector("#clear_btn");
+  const input_clear_btn = document.querySelector("#input_clear_btn");
   const ctr_up_btn = document.querySelector("#controls_up");
   const ctr_down_btn = document.querySelector("#controls_down");
   const ctr_left_btn = document.querySelector("#controls_left");
@@ -69,10 +81,13 @@ const setModel = async (id) => {
   setListeners();
   render();
 
+
+
   //Формы
 
   initCatList();
   formControl();
+
   // ****************ФУНКЦИИ**************
 
   function render() {
@@ -84,7 +99,7 @@ const setModel = async (id) => {
   }
 
   function setListeners() {
-    clear_btn.addEventListener("click", clearScene);
+    input_clear_btn.addEventListener("click", closeForm);
     controls.addEventListener("change", render);
     window.addEventListener("resize", render);
     ctr_up_btn.addEventListener("mousedown", () => move_null("y", 1));
@@ -142,11 +157,9 @@ const setModel = async (id) => {
     if (clear) {
       form_data.classList.add("hidden");
       upload_btn.classList.add("h-full");
-      clear_btn.classList.add("hidden");
     } else {
       form_data.classList.remove("hidden");
       upload_btn.classList.remove("h-full");
-      clear_btn.classList.remove("hidden");
     }
   }
 
@@ -288,7 +301,7 @@ const setModel = async (id) => {
 
       if (catInput.value.length > 0 && catInput.value.length < 15 && isNaN(catInput.value)) {
         document.querySelectorAll(".input_categorie").forEach((e) => e.remove());
-        categories.includes(catInput.value) ? false : categories.push(catInput.value);
+        categories.includes(catInput.value.split(" ").join("_")) ? false : categories.push(catInput.value.split(" ").join("_"));
         categories.forEach((name) => {
           categoriesList.insertAdjacentHTML(
             "beforeend",
@@ -322,6 +335,7 @@ const setModel = async (id) => {
       const productName = !!formData.get("name");
       const productMass = !!formData.get("mass");
       const productPrice = !!formData.get("price");
+
       if (!ifFiles) {
         changeBg(inputFiles.parentElement);
         console.log("Загрузите хотя бы один файл");
@@ -345,30 +359,102 @@ const setModel = async (id) => {
         formData.append("length", data_length.getAttribute("value"));
         formData.append("width", data_width.getAttribute("value"));
         formData.append("height", data_height.getAttribute("value"));
-        for (var p of formData) {
-          let name = p[0];
-          let value = p[1];
-          console.log(name, value);
-        }
+        formData.append("categories", categories);
+        formData.get("categories", categories);
         let response = await fetch("http://localhost:5000/api/catalog/models", {
           method: "POST",
           body: formData,
         });
 
         let result = await response.json();
+        form.reset()
+        getCatalog();
+        closeForm()
+        document.body.classList.remove('overflow-hidden')
         console.log(result);
       }
     });
   }
+
+  function closeForm() {
+    inputCutt.parentNode.classList.add("hidden")
+    document.body.classList.remove('overflow-hidden')
+  }
 };
 const getCatalog = async () => {
-  const catalog_container = document.querySelector("#catalog");
+  const catalog_container = document.querySelector("#catalog_container");
+  catalog_container.childNodes.forEach(cn => cn.remove())
+  catalog_container.insertAdjacentHTML('beforeend', "<div class='flex flex-wrap ' id='catalog'></div>")
+  const container = document.querySelector("#catalog");
   const response = await fetch("http://localhost:5000/api/catalog/models");
   const result = await response.json();
   console.log(result);
-  result.data ? result.data.forEach((product) => catalog_container.insertAdjacentHTML("beforeend", setCatalogItem(product))) : false;
+  result.data ? result.data.forEach((product) => container.insertAdjacentHTML("beforeend", setCatalogItem(product))) : false;
+  inputModelView(result.data)
 };
 const changeBg = (elem, cl = ["bg-red-700", "text-white"]) => {
   cl.forEach((c) => elem.classList.add(c));
   setTimeout(() => cl.forEach((c) => elem.classList.remove(c)), 300);
 };
+const inputModelView = (data) => {
+  const view3dArr = document.querySelectorAll('.view_3d')
+  const modal = document.querySelector('#modal_view')
+
+  view3dArr.forEach(v3d => v3d.addEventListener('click', e => {
+    const model_data = data.find(item => item.name === v3d.dataset.target)
+
+    getModal(model_data)
+  }))
+
+  async function getModal(data) {
+    modal.classList.remove('hidden')
+    console.log(data)
+    const scene = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(modal.clientWidth, modal.clientHeight);
+    // renderer.toneMapping = THREE.ReinhardToneMapping;
+    //  Камера
+    const camera = new THREE.PerspectiveCamera(40, modal.clientWidth / modal.clientHeight, 0.1, 10000);
+    camera.position.set(0, 0, 200);
+    // Контроллер
+    const controls = new OrbitControls(camera, modal);
+
+    // Базовое окружение
+    //  Свет
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+    hemiLight.position.set(0, 50, 0);
+    scene.add(hemiLight);
+    const stlLoader = new STLLoader();
+    for (const elem of data.files) {
+      const stl = await stlLoader.loadAsync(`http://localhost:3000/server/vault/${elem.name}.stl`);
+
+      const material = new THREE.MeshPhysicalMaterial({
+        roughness: 0.4,
+        metalness: 0.6,
+        clearcoat: 0.8,
+        clearcoatRoughness: 0.2,
+      });
+      var mesh = new THREE.Mesh(stl, material);
+      scene.add(mesh);
+
+    }
+    // Запуск рендера
+    renderer.render(scene, camera);
+    modal.append(renderer.domElement);
+    controls.addEventListener("change", render);
+    window.addEventListener("resize", render);
+    render();
+
+    function render() {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(modal.clientWidth, modal.clientHeight);
+      renderer.render(scene, camera);
+    }
+  }
+}

@@ -33,9 +33,13 @@ app.use(morgan("dev"));
 app.use(
   formidableMiddleware({
     encoding: "utf-8",
-    uploadDir: __dirname + "/vault/",
     multiples: true,
-  })
+  }, [{
+    event: "fileBegin",
+    action: function (req, res, next, name, file) {
+      file.path = __dirname + "/vault/" + file.name
+    }
+  }])
 );
 
 // use Routers
