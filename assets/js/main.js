@@ -1,26 +1,25 @@
+import Vue from "./vue.esm.js";
+new Vue({
+  el: '#app',
+  data: {},
+});
 import * as THREE from "./threejs/build/three.module.js";
-import {
-  OrbitControls
-} from "./threejs/examples/jsm/controls/OrbitControls.js";
-import {
-  STLLoader
-} from "./threejs/examples/jsm/loaders/STLLoader.js";
+import { OrbitControls } from "./threejs/examples/jsm/controls/OrbitControls.js";
+import { STLLoader } from "./threejs/examples/jsm/loaders/STLLoader.js";
 import setInputFile from "./modules/setInputFile.js";
 import setCat from "./modules/setCat.js";
 import setCatalogItem from "./modules/setCatalogItem.js";
 document.addEventListener("DOMContentLoaded", async () => {
-  const add_btn = document.querySelector('#add_model')
-  const modal = document.querySelector('#modal_input')
+  const add_btn = document.querySelector("#add_model");
+  const modal = document.querySelector("#modal_input");
 
-  add_btn.addEventListener('click', e => {
-    modal.classList.remove('hidden')
-    document.body.classList.add('overflow-hidden')
-  })
+  add_btn.addEventListener("click", (e) => {
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  });
   getCatalog();
-
 });
 const setModel = async (id) => {
-
   // Документ
   const container = document.querySelector(`#${id}`);
   const form_data = document.querySelector("#form_data");
@@ -80,8 +79,6 @@ const setModel = async (id) => {
   container.append(renderer.domElement);
   setListeners();
   render();
-
-
 
   //Формы
 
@@ -367,48 +364,50 @@ const setModel = async (id) => {
         });
 
         let result = await response.json();
-        form.reset()
+        form.reset();
         getCatalog();
-        closeForm()
-        document.body.classList.remove('overflow-hidden')
+        closeForm();
+        document.body.classList.remove("overflow-hidden");
         console.log(result);
       }
     });
   }
 
   function closeForm() {
-    inputCutt.parentNode.classList.add("hidden")
-    document.body.classList.remove('overflow-hidden')
+    inputCutt.parentNode.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
   }
 };
 const getCatalog = async () => {
   const catalog_container = document.querySelector("#catalog_container");
-  catalog_container.childNodes.forEach(cn => cn.remove())
-  catalog_container.insertAdjacentHTML('beforeend', "<div class='flex flex-wrap ' id='catalog'></div>")
+  catalog_container.childNodes.forEach((cn) => cn.remove());
+  catalog_container.insertAdjacentHTML("beforeend", "<div class='flex flex-wrap ' id='catalog'></div>");
   const container = document.querySelector("#catalog");
   const response = await fetch("http://localhost:5000/api/catalog/models");
   const result = await response.json();
   console.log(result);
   result.data ? result.data.forEach((product) => container.insertAdjacentHTML("beforeend", setCatalogItem(product))) : false;
-  inputModelView(result.data)
+  inputModelView(result.data);
 };
 const changeBg = (elem, cl = ["bg-red-700", "text-white"]) => {
   cl.forEach((c) => elem.classList.add(c));
   setTimeout(() => cl.forEach((c) => elem.classList.remove(c)), 300);
 };
 const inputModelView = (data) => {
-  const view3dArr = document.querySelectorAll('.view_3d')
-  const modal = document.querySelector('#modal_view')
+  const view3dArr = document.querySelectorAll(".view_3d");
+  const modal = document.querySelector("#modal_view");
 
-  view3dArr.forEach(v3d => v3d.addEventListener('click', e => {
-    const model_data = data.find(item => item.name === v3d.dataset.target)
+  view3dArr.forEach((v3d) =>
+    v3d.addEventListener("click", (e) => {
+      const model_data = data.find((item) => item.name === v3d.dataset.target);
 
-    getModal(model_data)
-  }))
+      getModal(model_data);
+    })
+  );
 
   async function getModal(data) {
-    modal.classList.remove('hidden')
-    console.log(data)
+    modal.classList.remove("hidden");
+    console.log(data);
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -440,7 +439,6 @@ const inputModelView = (data) => {
       });
       var mesh = new THREE.Mesh(stl, material);
       scene.add(mesh);
-
     }
     // Запуск рендера
     renderer.render(scene, camera);
@@ -457,4 +455,4 @@ const inputModelView = (data) => {
       renderer.render(scene, camera);
     }
   }
-}
+};
