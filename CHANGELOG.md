@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Degray84/3d-zephyr/compare/v1.1.0...v1.2.0) (2022-08-26)
+
+
+### Features
+
+* update firebase settings ([e4f8f27](https://github.com/Degray84/3d-zephyr/commit/e4f8f2749175c8d4ca5d7981fdda8a183c896ea9))
+
 # [1.1.0](https://github.com/Degray84/3d-zephyr/compare/v1.0.0...v1.1.0) (2022-08-26)
 
 
