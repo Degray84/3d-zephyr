@@ -1,7 +1,7 @@
 # Vue-Firebase web catalog of cookie cutters v2
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
-![semantic-release](https://github.com/github/docs/actions/workflows/semantic-release.yml/badge.svg)
-![branch main](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=feature-1)
+![semantic-release](https://https://github.com/Degray84/3d-zephyr/workflows/semantic-release.yml/badge.svg)
+![branch main](https://https://github.com/Degray84/3d-zephyr/workflows/main.yml/badge.svg?branch=main)
 ## This project is open to the public only for code demonstration. If you want to install it, you must get your own firebase config file.
 [https://zephyr-3d.web.app/](https://zephyr-3d.web.app/)
 
