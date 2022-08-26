@@ -1,5 +1,19 @@
 {
   "projects": {
-    "default": "d-zephyr"
-  }
+    "default": "d-zephyr",
+    "zephyr": "d-zephyr"
+  },
+  "targets": {
+    "d-zephyr": {
+      "hosting": {
+        "zephyr-test": [
+          "d-zephyr"
+        ],
+        "zephyr-main": [
+          "zephyr-printing"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
