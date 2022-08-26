@@ -1,4 +1,4 @@
-# Vue-Firebase web catalog of cookie cutters
+# Vue-Firebase web catalog of cookie cutters v2
 ## This project is open to the public only for code demonstration. If you want to install it, you must get your own firebase config file.
 [https://zephyr-3d.web.app/](https://zephyr-3d.web.app/)
 
