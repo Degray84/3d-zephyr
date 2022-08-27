@@ -8,7 +8,7 @@ import { getDatabase } from "firebase/database";
 import App from './App.vue';
 import router from './router';
 
-import './assets/main.css';
+import './assets/styles/main.scss';
 
 const fireapp = initializeApp(firebaseConfig)
 getDatabase(fireapp);
