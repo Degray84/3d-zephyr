@@ -19,7 +19,7 @@ const fireapp = initializeApp(firebaseConfig)
 const auth = getAuth(fireapp);
 getDatabase(fireapp);
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (user: User | null) => {
     const store = useAuth()
 
     store.fetchUser(user)
