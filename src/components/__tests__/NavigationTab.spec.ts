@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import NavigationTab from '../navigation/NavigationTab.vue'
+import NavigationTab from '../common/navigation/NavigationTab.vue'
 
 describe('NavigationTab', () => {
   it('NavigationTab renders properly', () => {
