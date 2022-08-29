@@ -1,0 +1,11 @@
+html,
+body,
+#app {
+    height: 100%;
+}
+
+.wrapper {
+    height: 100%;
+    background-color: var(--skr-surface-1);
+    transition: background-color 0.3s;
+}
