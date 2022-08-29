@@ -5,7 +5,7 @@ import type { User } from '@firebase/auth'
 export const useAuth = defineStore('auth', () => {
     let user = ref<User | null>(null)
 
-    const fetchUser = (authUser: User) => {
+    const fetchUser = (authUser: User | null) => {
         if (authUser) {
             user.value = authUser
         } else {
