@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import EmptyLayout from '@/views/layouts/EmptyLayout.vue';
-import NavigationBar from '@/components/navigation/NavigationBar.vue';
+import TheHeader from '@/components/common/TheHeader.vue';
 
 </script>
 
 <template>
     <EmptyLayout>
-        <NavigationBar />
+        <TheHeader />
         <slot />
     </EmptyLayout>
 </template>

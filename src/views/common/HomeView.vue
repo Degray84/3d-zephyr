@@ -4,6 +4,6 @@
 
 <template>
 
-  <div>asdas</div>
+  <div>Home view</div>
 
 </template>
