@@ -1,4 +1,5 @@
 export default {
+    to_home: 'Вернуться',
     home: "Главная",
     about: "Обо мне",
     changeTheme: "Сменить тему",

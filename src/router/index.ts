@@ -3,6 +3,8 @@ import MainView from '@/views/MainView.vue'
 const HomeView = () => import('@/views/common/HomeView.vue')
 const AboutView = () => import('@/views/common/HomeView.vue')
 
+const NotFound = () => import('@/views/NotFound.vue')
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,7 +16,7 @@ const router = createRouter({
       children: [
         {
           path: '/home',
-          name: 'index',
+          name: 'home',
           component: HomeView,
         },
         {
@@ -24,6 +26,11 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '404',
+      component: NotFound
+    }
 
   ]
 })

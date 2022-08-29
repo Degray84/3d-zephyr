@@ -1,4 +1,5 @@
 export default {
+    to_home: 'Return',
     home: "Home",
     about: "About",
     changeTheme: "Change theme",
