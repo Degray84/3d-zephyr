@@ -1,4 +1,12 @@
-export default Object.freeze([
+import type { Pages } from '@/stores/config'
+
+interface Tab {
+    route: string
+    label: string
+    icon?: string
+}
+
+const TABS: Readonly<Tab>[] = [
     {
         route: 'home',
         label: 'home',
@@ -9,4 +17,5 @@ export default Object.freeze([
         label: 'about',
         icon: 'person'
     }
-])
+]
+export default TABS

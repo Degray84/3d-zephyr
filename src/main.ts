@@ -6,6 +6,7 @@ import { createPinia } from 'pinia';
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { getRemoteConfig } from "firebase/remote-config";
 import { useAuth } from '@/stores/auth'
 
 
@@ -18,6 +19,8 @@ const fireapp = initializeApp(firebaseConfig)
 
 const auth = getAuth(fireapp);
 getDatabase(fireapp);
+const remoteConfig = getRemoteConfig(fireapp);
+remoteConfig.settings.minimumFetchIntervalMillis = 3600;
 
 onAuthStateChanged(auth, (user: User | null) => {
     const store = useAuth()

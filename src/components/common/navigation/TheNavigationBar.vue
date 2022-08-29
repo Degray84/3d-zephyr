@@ -3,8 +3,14 @@ import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import navigationTabs from '@/constants/navigationTabs';
 import NavigationTab from './NavigationTab.vue';
+import { useConfig } from '@/stores/config';
+import { storeToRefs } from 'pinia';
+const configStore = useConfig();
+const { pages } = storeToRefs(configStore);
 
-const tabs = computed(() => navigationTabs);
+const tabs = computed(() =>
+  navigationTabs.filter(({ label }) => (pages.value ? pages.value[label] : false))
+);
 </script>
 
 <template>
