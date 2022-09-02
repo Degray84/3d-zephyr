@@ -6,6 +6,18 @@ import TheHeader from '@/components/common/TheHeader.vue';
 <template>
   <EmptyLayout>
     <TheHeader />
-    <RouterView />
+    <div class="main-container">
+      <RouterView />
+    </div>
   </EmptyLayout>
 </template>
+
+<style lang="scss" scoped>
+  .main-container{
+    margin: auto;
+    padding: 60px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1240px;
+  }
+</style>

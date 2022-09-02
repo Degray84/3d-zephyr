@@ -13,6 +13,7 @@ import TheUserDropdown from './TheUserDropdown.vue';
 <style lang="scss" scoped>
 .header {
   position: fixed;
+  z-index: 999;
   top: 0;
   padding: var(--skr-space-2) var(--skr-space-4);
   width: 100%;
