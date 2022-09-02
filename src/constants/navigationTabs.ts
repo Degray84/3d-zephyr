@@ -1,5 +1,3 @@
-import type { Pages } from '@/stores/config'
-
 interface Tab {
     route: string
     label: string
@@ -11,6 +9,11 @@ const TABS: Readonly<Tab>[] = [
         route: 'home',
         label: 'home',
         icon: 'home'
+    },
+    {
+        route: 'products',
+        label: 'products',
+        icon: 'storefront'
     },
     {
         route: 'about',
