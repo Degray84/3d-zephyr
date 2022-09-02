@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import { useAuth } from '@/stores/auth';
-import { useSettings } from '@/stores/settings';
+import { useColorMode, usePreferredDark } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { authSignIn, authSignOut } from '@/api/auth.api';
 
@@ -11,7 +11,15 @@ import BaseIcon from '@/components/base/BaseIcon.vue';
 
 const authStore = useAuth();
 const { user } = storeToRefs(authStore);
-const { changeDarkTheme } = useSettings();
+const isDark = usePreferredDark();
+const mode = useColorMode({
+  attribute: 'color-scheme',
+});
+
+const changeDarkTheme = () => {
+  mode.value = mode.value === 'light' ? 'dark' : 'light';
+};
+
 const { locale } = useI18n({ useScope: 'global' });
 
 const changeLanguage = () => {
