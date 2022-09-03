@@ -1,4 +1,4 @@
 interface I18nObject {
-  ru: string;
-  en: string;
+  [key: string]: string;
 }
+export type { I18nObject };

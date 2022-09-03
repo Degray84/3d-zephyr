@@ -1,3 +1,4 @@
+import type { I18nObject } from '@/interfaces';
 import { useI18n } from 'vue-i18n';
 
 export default (value: I18nObject) => {

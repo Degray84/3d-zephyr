@@ -1,12 +1,16 @@
 import { useColorMode, usePreferredDark } from '@vueuse/core';
 
-const preferDark = usePreferredDark();
+export function useChangeTheme() {
+  const preferDark = usePreferredDark();
 
-const mode = useColorMode({
-  attribute: 'color-scheme',
-  initialValue: preferDark.value ? 'dark' : 'light',
-});
+  const mode = useColorMode({
+    attribute: 'color-scheme',
+    initialValue: preferDark.value ? 'dark' : 'light',
+  });
 
-export function changeTheme() {
-  mode.value = mode.value === 'light' ? 'dark' : 'light';
+  return {
+    changeTheme() {
+      mode.value = mode.value === 'light' ? 'dark' : 'light';
+    },
+  };
 }

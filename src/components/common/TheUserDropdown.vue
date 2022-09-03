@@ -1,24 +1,19 @@
 <script setup lang="ts">
-import { changeTheme } from '@/composables/theme-switcher';
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { storeToRefs } from 'pinia';
-
-import { useAuth } from '@/stores/auth';
-
-import { useI18n } from 'vue-i18n';
+import { ref, computed } from 'vue';
 import { authSignIn, authSignOut } from '@/api/auth.api';
+
+import { useChangeAuth } from '@/composables/auth-switcher';
+import { useChangeTheme } from '@/composables/theme-switcher';
+import { useChangeLocale } from '@/composables/locale-switcher';
+import { OnClickOutside } from '@vueuse/components';
 
 import BaseIcon from '@/components/base/BaseIcon.vue';
 
-const authStore = useAuth();
-const { user } = storeToRefs(authStore);
+const { user } = useChangeAuth();
+const { changeTheme } = useChangeTheme();
+const { changeLanguage } = useChangeLocale();
 
-const { locale } = useI18n({ useScope: 'global' });
-
-const changeLanguage = () => {
-  locale.value === 'ru' ? (locale.value = 'en') : (locale.value = 'ru');
-};
-
+const opened = ref(false);
 const menuList = [
   { label: 'changeTheme', icon: 'dark_mode', action: changeTheme },
   { label: 'changeLanguage', icon: 'translate', action: changeLanguage },
@@ -29,50 +24,38 @@ const menuList = [
 const computedList = computed(() =>
   menuList.filter(({ label }) => (!user.value ? label !== 'logout' : label !== 'login'))
 );
-
-const opened = ref(false);
-
-const closeDropdown = () => {
-  opened.value = false;
-};
-
-onMounted(() => {
-  document.body.addEventListener('click', closeDropdown);
-});
-
-onUnmounted(() => {
-  document.body.removeEventListener('click', closeDropdown);
-});
 </script>
 
 <template>
-  <div class="user-dropdown" @click.stop>
-    <div class="user-dropdown__trigger" @click="opened = !opened">
-      <img v-if="user" :src="user?.photoURL || '#'" alt="userphoto" />
-      <span v-else class="material-icons-outlined">person</span>
-    </div>
-    <Transition
-      enter-active-class="animate__animated animate__fadeInRight"
-      leave-active-class="animate__animated animate__fadeOutRight"
-    >
-      <div class="user-dropdown__list" v-if="opened">
-        <div class="user-dropdown__list-title">
-          {{ user?.displayName }}
-          {{ user?.email }}
-        </div>
-
-        <div
-          v-for="{ label, icon, action } in computedList"
-          :key="label"
-          class="user-dropdown__list-item"
-          @click="action"
-        >
-          <BaseIcon small>{{ icon }}</BaseIcon>
-          {{ $t(label) }}
-        </div>
+  <OnClickOutside @trigger="opened = false">
+    <div class="user-dropdown">
+      <div class="user-dropdown__trigger" @click="opened = !opened">
+        <img v-if="user" :src="user?.photoURL || '#'" alt="userphoto" />
+        <span v-else class="material-icons-outlined">person</span>
       </div>
-    </Transition>
-  </div>
+      <Transition
+        enter-active-class="animate__animated animate__fadeInRight"
+        leave-active-class="animate__animated animate__fadeOutRight"
+      >
+        <div class="user-dropdown__list" v-if="opened">
+          <div class="user-dropdown__list-title">
+            {{ user?.displayName }}
+            {{ user?.email }}
+          </div>
+
+          <div
+            v-for="{ label, icon, action } in computedList"
+            :key="label"
+            class="user-dropdown__list-item"
+            @click="action"
+          >
+            <BaseIcon small>{{ icon }}</BaseIcon>
+            {{ $t(label) }}
+          </div>
+        </div>
+      </Transition>
+    </div>
+  </OnClickOutside>
 </template>
 
 <style lang="scss" scoped>
