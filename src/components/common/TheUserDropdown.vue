@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { changeTheme } from '@/composables/theme-switcher';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import { useAuth } from '@/stores/auth';
-import { useColorMode, usePreferredDark } from '@vueuse/core';
+
 import { useI18n } from 'vue-i18n';
 import { authSignIn, authSignOut } from '@/api/auth.api';
 
@@ -11,14 +12,6 @@ import BaseIcon from '@/components/base/BaseIcon.vue';
 
 const authStore = useAuth();
 const { user } = storeToRefs(authStore);
-const isDark = usePreferredDark();
-const mode = useColorMode({
-  attribute: 'color-scheme',
-});
-
-const changeDarkTheme = () => {
-  mode.value = mode.value === 'light' ? 'dark' : 'light';
-};
 
 const { locale } = useI18n({ useScope: 'global' });
 
@@ -27,7 +20,7 @@ const changeLanguage = () => {
 };
 
 const menuList = [
-  { label: 'changeTheme', icon: 'dark_mode', action: changeDarkTheme },
+  { label: 'changeTheme', icon: 'dark_mode', action: changeTheme },
   { label: 'changeLanguage', icon: 'translate', action: changeLanguage },
   { label: 'logout', icon: 'logout', action: authSignOut },
   { label: 'login', icon: 'login', action: authSignIn },
