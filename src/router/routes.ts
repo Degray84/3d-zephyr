@@ -1,7 +1,8 @@
 import MainView from '@/views/MainView.vue';
 const HomeView = () => import('@/views/common/HomeView.vue');
 const ProductsView = () => import('@/views/common/ProductsView.vue');
-const AboutView = () => import('@/views/common/HomeView.vue');
+const CreateProductView = () => import('@/views/common/CreateProductView.vue');
+const AboutView = () => import('@/views/common/AboutView.vue');
 
 const NotFound = () => import('@/views/NotFound.vue');
 
@@ -21,6 +22,11 @@ export default [
         path: '/products',
         name: 'products',
         component: ProductsView,
+      },
+      {
+        path: '/new_product',
+        name: 'new_product',
+        component: CreateProductView,
       },
       {
         path: '/about',

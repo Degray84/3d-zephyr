@@ -6,18 +6,18 @@ import { storeToRefs } from 'pinia';
 
 import AppLayout from '@/views/layouts/AppLayout.vue';
 import { isAvailablePage } from '@/helpers/config';
-import {  useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n';
 
 const storeConfig = useConfig();
 const router = useRouter();
 const route = useRoute();
 
 const { pages } = storeToRefs(storeConfig);
-const i18n = useI18n()
+const i18n = useI18n();
 
 onMounted(() => {
   storeConfig.fetchAppConfig();
-  console.log(i18n)
+  console.log(i18n);
 });
 
 watch(pages, () => {
