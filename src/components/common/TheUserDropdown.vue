@@ -83,8 +83,9 @@ const computedList = computed(() =>
   }
   &__list {
     position: absolute;
+    z-index: 999;
     top: 100%;
-    right: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     width: 280px;
