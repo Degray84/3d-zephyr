@@ -1,8 +1,37 @@
-import { getDatabase, ref as fireRef, query, limitToLast, onValue } from 'firebase/database';
+import { onMounted, ref as vueRef } from 'vue';
+import { getDatabase, ref, set, push, query, limitToLast, onValue } from 'firebase/database';
 
-export const fetchProducts = () => {
+export const useFetchProducts = () => {
+  const products = vueRef();
+
+  onMounted(() => {
     const db = getDatabase();
-    const recentPostsRef = query(fireRef(db, 'products'), limitToLast(100));
+    const recentPostsRef = query(ref(db, 'products'), limitToLast(100));
+    onValue(recentPostsRef, result => (products.value = result.val()));
+  });
+  return {
+    products,
+  };
+};
 
-    return new Promise(resolve => onValue(recentPostsRef, result => resolve(result.val())))
+export const useAddProducts = () => {
+  const db = getDatabase();
+
+  const addProduct = (data: any) => {
+    push(ref(db, 'products'), data);
+  };
+
+  return {
+    addProduct,
+  };
+};
+
+export const useDeleteProduct = () => {
+  const db = getDatabase();
+
+  const deleteProduct = (id: string) => set(ref(db, `products/${id}`), null);
+
+  return {
+    deleteProduct,
+  };
 };
