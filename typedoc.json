@@ -1,0 +1,8 @@
+{
+    "excludeNotDocumented": true,
+    "entryPoints": [
+        "src/index.ts"
+    ],
+    "out": "docs",
+    "name": "Web Server Documentation",
+}

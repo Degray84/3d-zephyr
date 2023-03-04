@@ -1,13 +1,15 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="base-layout">
-    <div v-if="$slots.title" class="base-layout__title">
-      <slot name="title" />
-    </div>
+  <q-page-container>
+    <q-page class="q-pa-sm">
+      <div v-if="$slots.title" class="base-layout__title">
+        <slot name="title" />
+      </div>
 
-    <slot />
-  </div>
+      <slot />
+    </q-page>
+  </q-page-container>
 </template>
 
 <style lang="scss" scoped>

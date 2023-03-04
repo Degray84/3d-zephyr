@@ -7,7 +7,7 @@ const { onEnter, onLeave } = useCardAnimations();
 </script>
 
 <template>
-  <div class="product-list">
+  <div class="row">
     <TransitionGroup :css="false" @enter="onEnter" @leave="onLeave">
       <ProductCard
         v-for="(product, key, index) in products"
@@ -15,15 +15,10 @@ const { onEnter, onLeave } = useCardAnimations();
         :id="key"
         :key="key"
         :product="product"
+        class="col-3"
       />
     </TransitionGroup>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--skr-space-4);
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,61 +1,45 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { authSignIn, authSignOut } from '@/api/auth.api';
 
 import { useChangeAuth } from '@/composables/auth-switcher';
 import { useChangeTheme } from '@/composables/theme-switcher';
 import { useChangeLocale } from '@/composables/locale-switcher';
-import { OnClickOutside } from '@vueuse/components';
-
-import BaseIcon from '@/components/base/BaseIcon.vue';
 
 const { user } = useChangeAuth();
 const { changeTheme } = useChangeTheme();
 const { changeLanguage } = useChangeLocale();
-
-const opened = ref(false);
-const menuList = [
-  { label: 'changeTheme', icon: 'dark_mode', action: changeTheme },
-  { label: 'changeLanguage', icon: 'translate', action: changeLanguage },
-  { label: 'logout', icon: 'logout', action: authSignOut },
-  { label: 'login', icon: 'login', action: authSignIn },
-];
-
-const computedList = computed(() =>
-  menuList.filter(({ label }) => (!user.value ? label !== 'logout' : label !== 'login'))
-);
 </script>
-
 <template>
-  <OnClickOutside @trigger="opened = false">
-    <div class="user-dropdown">
-      <div class="user-dropdown__trigger" @click="opened = !opened">
-        <img v-if="user" :src="user?.photoURL || '#'" alt="userphoto" />
-        <span v-else class="material-icons-outlined">person</span>
-      </div>
-      <Transition
-        enter-active-class="animate__animated animate__fadeInRight"
-        leave-active-class="animate__animated animate__fadeOutRight"
+  <q-btn round>
+    <q-avatar>
+      <q-img
+        :src="user?.photoURL || 'https://cdn.quasar.dev/img/boy-avatar.png'"
+        spinner-color="white"
       >
-        <div class="user-dropdown__list" v-if="opened">
-          <div class="user-dropdown__list-title">
-            {{ user?.displayName }}
-            {{ user?.email }}
-          </div>
-
-          <div
-            v-for="{ label, icon, action } in computedList"
-            :key="label"
-            class="user-dropdown__list-item"
-            @click="action"
-          >
-            <BaseIcon small>{{ icon }}</BaseIcon>
-            {{ $t(label) }}
-          </div>
-        </div>
-      </Transition>
-    </div>
-  </OnClickOutside>
+        <template #error>
+          <span>AD</span>
+        </template>
+      </q-img>
+    </q-avatar>
+    <q-menu transition-show="rotate" transition-hide="rotate">
+      <q-list style="min-width: 100px">
+        <q-item clickable @click="changeTheme">
+          <q-item-section>{{ $t('changeTheme') }}</q-item-section>
+        </q-item>
+        <q-item clickable @click="changeLanguage">
+          <q-item-section>{{ $t('changeLanguage') }}</q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item v-if="user" clickable @click="authSignOut">
+          <q-item-section>{{ $t('logout') }}</q-item-section>
+        </q-item>
+        <q-item v-else clickable @click="authSignIn">
+          <q-item-section>{{ $t('login') }}</q-item-section>
+        </q-item>
+      </q-list>
+    </q-menu>
+  </q-btn>
 </template>
 
 <style lang="scss" scoped>

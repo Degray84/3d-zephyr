@@ -1,6 +1,5 @@
 export default {
-    buttons: {
-      send: 'Отправить',
-    },
-  };
-  
+  buttons: {
+    send: 'Отправить',
+  },
+};

@@ -18,6 +18,21 @@ const onCardLeave = (el: any, done: any) => {
     onComplete: done,
   });
 };
+export interface IA {
+  // b - Тип
+  b: number,
+  // @param - sadasdas
+  casdas: string,
+  d?: string,
+  e?: string
+}
+
+const a: IA = {
+  b: 1,
+  casdas: 'asda'
+};
+
+a.
 
 export const useCardAnimations = () => {
   return {

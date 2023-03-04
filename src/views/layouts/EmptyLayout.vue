@@ -1,9 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <main class="main">
+  <div class="main">
     <slot />
-  </main>
+  </div>
 </template>
 
 <style type="scss" scoped>
@@ -11,5 +11,6 @@
   height: 100%;
   display: flex;
   overflow: hidden;
+  padding: var(--plx-space-4);
 }
 </style>

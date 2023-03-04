@@ -2,6 +2,7 @@ interface Tab {
   route: string;
   label: string;
   icon?: string;
+  separator?: boolean;
 }
 
 const TABS: Readonly<Tab>[] = [
@@ -14,6 +15,11 @@ const TABS: Readonly<Tab>[] = [
     route: 'products',
     label: 'products',
     icon: 'storefront',
+  },
+  {
+    route: 'product_review',
+    label: 'product_review',
+    icon: 'inventory',
   },
   {
     route: 'new_product',

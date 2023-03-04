@@ -1,12 +1,15 @@
 import MainView from '@/views/MainView.vue';
-const HomeView = () => import('@/views/common/HomeView.vue');
-const ProductsView = () => import('@/views/common/ProductsView.vue');
-const CreateProductView = () => import('@/views/common/CreateProductView.vue');
-const AboutView = () => import('@/views/common/AboutView.vue');
+import type { RouteComponent, RouteLocation } from 'vue-router';
+const HomeView = () => import('@/views/common/HomePage.vue');
+const ProductsView = () => import('@/views/common/ProductsPage.vue');
+const AboutView = () => import('@/views/common/AboutPage.vue');
+
+const CreateProductPage = () => import('@/views/admin/CreateProductPage.vue');
+const ReviewProductsPage = () => import('@/views/admin/ReviewProductsPage.vue');
 
 const NotFound = () => import('@/views/NotFound.vue');
 
-export default [
+const routes: RouteComponent[] = [
   {
     path: '/',
     name: 'index',
@@ -26,7 +29,13 @@ export default [
       {
         path: '/new_product',
         name: 'new_product',
-        component: CreateProductView,
+        props: (route: RouteLocation) => ({ query: route.query }),
+        component: CreateProductPage,
+      },
+      {
+        path: '/product_review',
+        name: 'product_review',
+        component: ReviewProductsPage,
       },
       {
         path: '/about',
@@ -41,3 +50,5 @@ export default [
     component: NotFound,
   },
 ];
+
+export default routes;

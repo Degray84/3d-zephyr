@@ -3,9 +3,9 @@ import ProductList from '@/components/product/ProductList.vue';
 </script>
 
 <template>
-  <div>
+  <q-page class="q-pa-md">
     <ProductList />
-  </div>
+  </q-page>
 </template>
 
 <style lang="scss" scoped></style>

@@ -15,6 +15,7 @@ coverage
 *.local
 *.firebase
 .env
+.unlighthouse
 
 /cypress/videos/
 /cypress/screenshots/

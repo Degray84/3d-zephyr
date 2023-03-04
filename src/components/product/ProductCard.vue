@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseIcon from '../base/BaseIcon.vue';
+import { ref } from 'vue';
 import { useDeleteProduct } from '@/api/products.api';
 const props = defineProps({
   id: {
@@ -11,6 +11,7 @@ const props = defineProps({
     required: true,
   },
 });
+const expanded = ref(false);
 
 const { deleteProduct } = useDeleteProduct();
 
@@ -18,19 +19,43 @@ const handleDelete = () => deleteProduct(props.id);
 </script>
 
 <template>
-  <div class="product-card">
-    <div class="product-card__header">
-      <div>
-        {{ $pickLocale(product.name) }}
-      </div>
+  <q-card class="my-card" flat bordered>
+    <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" />
 
-      <BaseIcon class="product-card__delete" @click="handleDelete">close</BaseIcon>
-    </div>
-    
-    <div v-if="product.type">
-      {{ $t(`product_types.${product.type}`) }}
-    </div>
-  </div>
+    <q-card-section>
+      <div class="text-overline text-orange-9">Overline</div>
+      <div class="text-h5 q-mt-sm q-mb-xs">Title</div>
+      <div class="text-caption text-grey">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua.
+      </div>
+    </q-card-section>
+
+    <q-card-actions>
+      <q-btn flat color="dark" label="Share" />
+      <q-btn flat color="primary" label="Book" />
+
+      <q-space />
+
+      <q-btn
+        color="grey"
+        round
+        flat
+        dense
+        :icon="expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+        @click="expanded = !expanded"
+      />
+    </q-card-actions>
+
+    <q-slide-transition>
+      <div v-show="expanded">
+        <q-separator />
+        <q-card-section class="text-subitle2">
+          {{ lorem }}
+        </q-card-section>
+      </div>
+    </q-slide-transition>
+  </q-card>
 </template>
 
 <style lang="scss" scoped>
